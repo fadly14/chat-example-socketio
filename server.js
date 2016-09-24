@@ -2,11 +2,13 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
-});
-
+app.get('/', defaultResponse);
 io.on('connection', callbackConnectIO);
+http.listen(1234, listenToWhat);
+
+function defaultResponse(req, res){
+  res.sendFile(__dirname + '/index.html');
+}
 
 function callbackConnectIO(socket) {
   console.log('a user connected');
@@ -22,7 +24,6 @@ function callbackDisconnectIO() {
   console.log('user disconnected');
 }
 
-
-http.listen(1234, function(){
+function listenToWhat(){
   console.log('listening on *:1234');
-});
+}
